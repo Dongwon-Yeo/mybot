@@ -213,7 +213,10 @@
 
   async function init() {
     try {
-      const res = await fetch("data/faq.json");
+      /* GitHub Pages / 브라우저가 예전 faq.json을 붙잡지 않도록 캐시 우회 */
+      const res = await fetch("data/faq.json?t=" + Date.now(), {
+        cache: "no-store",
+      });
       if (!res.ok) throw new Error("faq.json 로드 실패 (" + res.status + ")");
       faqData = await res.json();
       if (!Array.isArray(faqData) || faqData.length === 0) {
